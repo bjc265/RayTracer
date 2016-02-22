@@ -1,4 +1,5 @@
- 	#pragma once
+#ifndef CAMERA_H
+#define CAMERA_H
 
 #include <armadillo>
 #include "ray.h"
@@ -9,17 +10,19 @@ namespace rtrace
 	{
 		class Camera
 		{
+		public:
+			Ray getCameraAsRay();
+			arma::vec getPosition() const;
+			void setPosition(arma::vec v);
+			arma::vec getDirection() const;
+			void setDirection(arma::vec v);
+			virtual Ray getCameraRay(double u, double v) = 0;
 		protected:
 			Ray camRay;
 
-		public:
-			Camera();
-			Ray getCameraAsRay();
-			arma::vec getPosition();
-			void setPosition(arma::vec v);
-			arma::vec getDirection();
-			void setDirection(arma::vec v);
-			virtual Ray getCameraRay(double u, double v) = 0;
+		
 		};
 	}
 }
+
+#endif

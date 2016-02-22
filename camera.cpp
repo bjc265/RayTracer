@@ -4,7 +4,7 @@ namespace rtrace
 {
 	namespace camera
 	{
-		Ray Camera::getCameraAsRay() const
+		Ray Camera::getCameraAsRay()
 		{
 			return camRay;
 		}

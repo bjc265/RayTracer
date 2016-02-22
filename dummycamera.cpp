@@ -5,10 +5,15 @@ namespace rtrace
 {
 	namespace camera
 	{
-
-		Ray Camera::getCameraRay(double u, double v)
+		DummyCamera::DummyCamera()
 		{
-			return this->getCameraAsRay();
+			Ray r;
+			camRay = r;
+		}
+
+		Ray DummyCamera::getCameraRay(double u, double v)
+		{
+			return camRay;
 		}
 	}
 }

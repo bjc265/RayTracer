@@ -1,17 +1,40 @@
 #include "scene.h"
+#include "dummycamera.h"
 
 namespace rtrace
 {
+	Scene::Scene()
+	{
+		camera::DummyCamera dc;
+		this->camera = &dc;
+		std::vector<surface::Surface*> srs;
+		surfaces = srs;
+		std::vector<light::Light*> lts;
+		lights = lts;
+		Color bgc;
+		backgroundColor = bgc;
+	}
+
+	Color Scene::getBackgroundColor() const
+	{
+		return backgroundColor;
+	}
 	
+	void Scene::setBackgroundColor(Color c)
+	{
+		backgroundColor = c;
+	}
+
+
 	#pragma warning(push)
 	#pragma warning(disable: 4101)
 	camera::Camera& Scene::getCamera()
 	{
-		return camera;
+		return *camera;
 	}
 	#pragma warning(pop)
 
-	void Scene::setCamera(camera::Camera& cam)
+	void Scene::setCamera(camera::Camera* cam)
 	{
 		camera = cam;
 	}

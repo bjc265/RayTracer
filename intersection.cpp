@@ -7,8 +7,8 @@ namespace rtrace
 	{
 		Ray r;
 		ray = r;
-		surf = NULL;
-		t = -1;
+		surf = 0;
+		t = std::numeric_limits<double>::max();
 		arma::vec3 v("0 0 0");
 		location = v;
 	}

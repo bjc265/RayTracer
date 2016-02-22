@@ -1,4 +1,5 @@
-#pragma once
+#ifndef DUMMYCAMERA_H
+#define DUMMYCAMERA_H
 
 #include "camera.h"
 
@@ -6,9 +7,13 @@ namespace rtrace
 {
 	namespace camera
 	{
-		class DummyCamera : Camera
+		class DummyCamera : public Camera
 		{
-			Ray getCameraRay(double u, double v) = 0;
+		public:
+			DummyCamera();
+			Ray getCameraRay(double u, double v);
 		};
 	}
 }
+
+#endif

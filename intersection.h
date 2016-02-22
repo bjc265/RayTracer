@@ -1,16 +1,19 @@
 #ifndef INTERSECTION_H
 #define INTERSECTION_H
 
-namespace surface
-{
-	class Surface;
-}
 
 #include <armadillo>
 #include "ray.h"
 
+
+
 namespace rtrace
 {
+	namespace surface
+	{
+		class Surface;
+	}
+
 	class Intersection
 	{
 	private:
