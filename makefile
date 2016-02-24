@@ -1,27 +1,32 @@
-ROOTS = raytracer ray scene shader surface intersection dummylight dummyshader dummysurface dummycamera camera
-HEAD_ONLY = light color
-SOURCE_ONLY = main
+HEADERS = h/*.h
+PCHEADERS = $(addprefix bin/,$(notdir $(HEADERS.h=.h.gch)))
+
+SOURCES = src/*.cpp
+OBJECTS = $(addprefix bin/,$(notdir $(SOURCES:.cpp=.o)))
 
 
 CC = g++
-CFLAGS = -c
-LDFLAGS =
-HEADERS = $(addsuffix .h, $(ROOTS) $(HEAD_ONLY))
-PCHEADERS = $(addsuffix .gch, $(HEADERS))
-SOURCES = $(addsuffix .cpp, $(ROOTS) $(SOURCE_ONLY))
-OBJECTS = $(addsuffix .o, $(ROOTS) $(SOURCE_ONLY))
+CFLAGS = -Ibin -Ih -c
+LDFLAGS = -Ibin -w -o $(EXECUTABLE)
+HFLAGS = -Ih -c
+
 EXECUTABLE = RayTracer
 
-all : $(SOURCES) $(EXECUTABLE)
 
-$(OBJECTS) : $(SOURCES)
-	$(CC) $(CFLAGS) $(SOURCES) -c -w
 
-$(EXECUTABLE): $(OBJECTS)
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@ -larmadillo -w
+all : $(OBJECTS) $(EXECUTABLE)
 
-depend :
-	$(CC) $(HEADERS)
+$(OBJECTS) : $(SOURCES) $(PCHEADERS)
+	$(CC) $(CFLAGS) $(SOURCES); mv *.o bin
+
+$(EXECUTABLE) : $(OBJECTS)
+	$(CC) $(LDFLAGS) $(OBJECTS) -larmadillo;
+
+
+depend : $(PCHEADERS)
+
+$(PCHEADERS): $(HEADERS)
+	$(CC) $(HFLAGS) $(HEADERS); ls; mv h/*.h.gch bin
 
 clean :
-	rm $(EXECUTABLE) $(OBJECTS) $(PCHEADERS)
+	rm bin/*

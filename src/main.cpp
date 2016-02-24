@@ -21,7 +21,6 @@ int main(int argc, const char* argv[])
 	rtrace::Ray r;
 	rtrace::Color bgc(127,0,0);
 
-	
 	sc.setBackgroundColor(bgc);
 	sc.setCamera(&dc);
 	sc.addSurface(ds);
