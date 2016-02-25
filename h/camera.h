@@ -10,16 +10,24 @@ namespace rtrace
 	{
 		class Camera
 		{
-		public:
-			Ray getCameraAsRay();
-			arma::vec getPosition() const;
-			void setPosition(arma::vec v);
-			arma::vec getDirection() const;
-			void setDirection(arma::vec v);
-			virtual Ray getCameraRay(double u, double v) = 0;
 		protected:
-			Ray camRay;
-
+			arma::vec3 position;
+			arma::vec3 direction;
+			arma::vec3 up;
+		
+		public:
+			Ray getCameraAsRay()
+			{
+				Ray r(position,direction);
+				return r;
+			}
+			arma::vec3 getPosition() const {return position;}
+			virtual void setPosition(arma::vec3 v) {position = v;}
+			arma::vec3 getDirection() const {return direction;}
+			virtual void setDirection(arma::vec3 v) {direction = v;}
+			arma::vec3 getUpDirection() const {return up;}
+			virtual void setUpDirection(arma::vec3 v) {up = v;}
+			virtual Ray getCameraRay(double u, double v) = 0;
 		
 		};
 	}

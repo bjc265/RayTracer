@@ -1,5 +1,6 @@
 #include "dummycamera.h"
 #include "ray.h"
+#include <armadillo>
 
 namespace rtrace
 {
@@ -7,13 +8,16 @@ namespace rtrace
 	{
 		DummyCamera::DummyCamera()
 		{
-			Ray r;
-			camRay = r;
+			arma::vec3 v("0 0 0");
+			position = v;
+			direction = v;
+			up = v;
 		}
 
 		Ray DummyCamera::getCameraRay(double u, double v)
 		{
-			return camRay;
+			Ray r(position,direction);
+			return r;
 		}
 	}
 }

@@ -5,6 +5,7 @@
 #include "dummysurface.h"
 #include "scene.h"
 #include "color.h"
+#include "orthographiccamera.h"
 
 
 int main(int argc, const char* argv[])
@@ -12,8 +13,12 @@ int main(int argc, const char* argv[])
 	
 	rtrace::Scene sc;	
 
-	arma::vec3 v("0 5 10");
-	rtrace::camera::DummyCamera dc;
+	arma::vec3 p("0 5 10");
+	arma::vec3 d("3 0 0");
+	arma::vec3 u("0 0 7");
+
+
+	rtrace::camera::OrthographicCamera dc(p,d,u,16.0,9.0);
 	rtrace::light::DummyLight dl;
 	rtrace::shader::DummyShader dsh;
 	rtrace::Intersection inter;
@@ -31,6 +36,7 @@ int main(int argc, const char* argv[])
 
 	std::vector<rtrace::Color*>* img = raytracer.renderScene("  ",100,100);
 	rtrace::Color* c = img->at(0);
+	std::cout << "\n" << dc.getCameraRay(0,0).getPosition() << "cocks";
 	std::cout << "\n" << c->r << "\n";
 	delete img;
 }

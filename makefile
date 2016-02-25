@@ -1,13 +1,13 @@
 HEADERS = h/*.h
-PCHEADERS = $(addprefix bin/,$(notdir $(HEADERS.h=.h.gch)))
+PCHEADERS = $(HEADERS.h=(.h.gch))
 
 SOURCES = src/*.cpp
-OBJECTS = $(addprefix bin/,$(notdir $(SOURCES:.cpp=.o)))
+OBJECTS = $(SOURCES:.cpp=.o)
 
 
 CC = g++
-CFLAGS = -Ibin -Ih -c
-LDFLAGS = -Ibin -w -o $(EXECUTABLE)
+CFLAGS = -Ih -c -o src/$(notdir $@)
+LDFLAGS = -w -o $(EXECUTABLE)
 HFLAGS = -Ih -c
 
 EXECUTABLE = RayTracer
@@ -16,8 +16,8 @@ EXECUTABLE = RayTracer
 
 all : $(OBJECTS) $(EXECUTABLE)
 
-$(OBJECTS) : $(SOURCES) $(PCHEADERS)
-	$(CC) $(CFLAGS) $(SOURCES); mv *.o bin
+$(OBJECTS) : $(SOURCES)
+	$(CC) $(CFLAGS) $(addprefix src/, $(addsuffix .cpp, $(notdir $(basename $@))))
 
 $(EXECUTABLE) : $(OBJECTS)
 	$(CC) $(LDFLAGS) $(OBJECTS) -larmadillo;
@@ -26,7 +26,7 @@ $(EXECUTABLE) : $(OBJECTS)
 depend : $(PCHEADERS)
 
 $(PCHEADERS): $(HEADERS)
-	$(CC) $(HFLAGS) $(HEADERS); ls; mv h/*.h.gch bin
+	$(CC) $(HFLAGS) $(HEADERS)
 
 clean :
-	rm bin/*
+	rm RayTracer; rm h/*.gch; rm src/*.o
