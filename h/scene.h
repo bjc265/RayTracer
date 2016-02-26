@@ -20,11 +20,11 @@ namespace rtrace
 		Scene();
 		Color getBackgroundColor() const;
 		void setBackgroundColor(Color c);
-		camera::Camera& getCamera();
-		void setCamera(camera::Camera* cam);
-		std::vector<surface::Surface*>& getSurfaces();
+		camera::Camera* getCamera() const;
+		void setCamera(camera::Camera& cam);
+		std::vector<surface::Surface*> getSurfaces();
 		void addSurface(surface::Surface& s);
-		std::vector<light::Light*>& getLights();
+		std::vector<light::Light*> getLights();
 		void addLight(light::Light& l);
 	};
 }

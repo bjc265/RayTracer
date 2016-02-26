@@ -6,9 +6,9 @@ OBJECTS = $(SOURCES:.cpp=.o)
 
 
 CC = g++
-CFLAGS = -Ih -c -o src/$(notdir $@)
-LDFLAGS = -w -o $(EXECUTABLE)
-HFLAGS = -Ih -c
+CFLAGS = -std=c++11 -I../h -c
+LDFLAGS = -std=c++11 -w -o $(EXECUTABLE)
+HFLAGS = -std=c++11 -Ih -c
 
 EXECUTABLE = RayTracer
 
@@ -17,7 +17,7 @@ EXECUTABLE = RayTracer
 all : $(OBJECTS) $(EXECUTABLE)
 
 $(OBJECTS) : $(SOURCES)
-	$(CC) $(CFLAGS) $(addprefix src/, $(addsuffix .cpp, $(notdir $(basename $@))))
+	cd src; $(CC) $(CFLAGS) $(notdir $(SOURCES))
 
 $(EXECUTABLE) : $(OBJECTS)
 	$(CC) $(LDFLAGS) $(OBJECTS) -larmadillo;

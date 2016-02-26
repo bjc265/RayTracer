@@ -24,12 +24,20 @@ namespace rtrace
 		
 
 	public:
-		Intersection();
-		Ray const getRay();
-		surface::Surface& getSurface();
-		double const getT();
-		arma::vec const getLocation();
-		void setIntersection(Ray r, surface::Surface& s, double tn, arma::vec l);
+		Intersection()
+		{
+			Ray r;
+			arma::vec3 v("0 0 0");
+			ray = r;
+			surf = nullptr;
+			t = -1;
+			location = v;
+		}
+		Intersection(Ray r, surface::Surface* s, double tn, arma::vec3 l) {ray=r; surf=s; t=tn; location=l;}
+		Ray getRay() const {return ray;}
+		surface::Surface& getSurface() const {return *surf;}
+		double getT() const {return t;}
+		arma::vec getLocation() const {return location;}
 	};
 }
 

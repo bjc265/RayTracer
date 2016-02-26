@@ -46,11 +46,12 @@ namespace rtrace
 
 		Color operator+=(const Color& c)
 		{
-			this->r += c.r;
-			this->g += c.g;
-			this->b += c.b;
+			Color n;
+			n.r = this->r + c.r;
+			n.g = this->g + c.g;
+			n.b = this->b + c.b;
+			return n;
 		}
-
 
 		friend std::ostream& operator<<(std::ostream& strm, const Color& c)
 		{

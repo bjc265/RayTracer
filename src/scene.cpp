@@ -1,12 +1,11 @@
 #include "scene.h"
-#include "dummycamera.h"
+#include "camera.h"
 
 namespace rtrace
 {
 	Scene::Scene()
 	{
-		camera::DummyCamera dc;
-		this->camera = &dc;
+		camera = new camera::Camera();
 		std::vector<surface::Surface*> srs;
 		surfaces = srs;
 		std::vector<light::Light*> lts;
@@ -26,20 +25,20 @@ namespace rtrace
 	}
 
 
-	#pragma warning(push)
-	#pragma warning(disable: 4101)
-	camera::Camera& Scene::getCamera()
+	
+	camera::Camera* Scene::getCamera() const
 	{
-		return *camera;
+		return camera;
 	}
-	#pragma warning(pop)
+	
 
-	void Scene::setCamera(camera::Camera* cam)
+	void Scene::setCamera(camera::Camera& cam)
 	{
-		camera = cam;
+		delete camera;
+		camera = cam.getAsHeapObject();
 	}
 
-	std::vector<surface::Surface*>& Scene::getSurfaces()
+	std::vector<surface::Surface*> Scene::getSurfaces()
 	{
 		return surfaces;
 	}
@@ -49,7 +48,7 @@ namespace rtrace
 		surfaces.push_back(&s);
 	}
 
-	std::vector<light::Light*>& Scene::getLights()
+	std::vector<light::Light*> Scene::getLights()
 	{
 		return lights;
 	}

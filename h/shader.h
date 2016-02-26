@@ -15,7 +15,8 @@ namespace rtrace
 		class Shader
 		{
 		public:
-			virtual Color shade(Intersection& intersect, light::Light& light) = 0;
+			virtual Color shade(Intersection& intersect, light::Light& light) {Color c(0,0,0); return c;}
+			virtual Shader* getAsHeapObject() {return new Shader();}
 		};
 	}
 }

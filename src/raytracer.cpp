@@ -1,8 +1,12 @@
 #include <png++/png.hpp>
+#include "intersection.h"
 #include "raytracer.h"
 #include "surface.h"
 #include "shader.h"
 #include "light.h"
+#include "sphere.h"
+
+
 
 namespace rtrace
 {
@@ -13,7 +17,7 @@ namespace rtrace
 		config = c;
 	}
 
-	std::vector<Color*>* RayTracer::renderScene(std::string scenefile_path, int width, int height)
+	std::vector<Color> RayTracer::renderScene(std::string scenefile_path, int width, int height)
 	{
 		buildScene(scenefile_path);
 		return renderCurrentScene(width, height);
@@ -24,77 +28,52 @@ namespace rtrace
 
 	}
 
-	std::vector<Color*>* RayTracer::renderCurrentScene(int width, int height)
+	std::vector<Color> RayTracer::renderCurrentScene(int width, int height)
 	{
-		camera::Camera& cam = scene->getCamera();
-		std::vector<light::Light*>& lights = scene->getLights();
-		std::vector<surface::Surface*>& surfaces = scene->getSurfaces();
-		std::vector<Color*>* img = new std::vector<Color*>();
-		//std::cout << "far intersection about to be made \n";
-		Intersection* aReallyFarIntersection = new Intersection();
-		//std::cout << aReallyFarIntersection;
-		Intersection* closestIntersection;
-
+		//TODO refactor
+		camera::Camera* cam = scene->getCamera();
+		std::vector<light::Light*> lights = scene->getLights();
+		std::vector<surface::Surface*> surfaces = scene->getSurfaces();
+		std::vector<Color> img(width*height);
+		Color bgc = scene->getBackgroundColor();
 		
-		for(int j=0;j<height;j++)
+		
+		for(int j=0; j<height; j++)
 		{
-
-			for(int i=0;i<width;i++)
+			for (int i=0; i<width; i++)
 			{
+				Intersection closestIntersection;
+				Ray camRay = cam->getCameraRay(((double)i)/((double)width), ((double)j)/((double)height));
 
-				Ray camRay = cam.getCameraRay(((double)i)/((double)width),((double)j)/((double)height));
-
-				closestIntersection = aReallyFarIntersection;
-				
-				for(size_t sn = 0; sn < surfaces.size(); sn++)
+				//intersect all surfaces in the scene
+				for(size_t sn=0; sn<surfaces.size(); sn++)
 				{
+					Intersection inter = surfaces[sn]->intersect(camRay);
 
-					surface::Surface* s = surfaces[sn];
-					
-					Intersection* inter = new Intersection();
-
-					if(s->intersect(camRay,*inter))
+					if(closestIntersection.getT()<0 || (inter.getT()>0 && closestIntersection.getT()<0))
 					{
-						if(inter->getT() < closestIntersection->getT())
-						{
-							if(closestIntersection!=aReallyFarIntersection)
-							{
-								delete closestIntersection;
-							}
-							closestIntersection = inter;
-						}
-						else
-						{
-							delete inter;
-						}
-					}
-					else
-					{
-
-						delete inter;
+						closestIntersection = inter;
 					}
 				}
+				//closestIntersection is now the closest intersection with a positive t value, or some intersection with a negative t value if no intersections occurred.
 
-				if(closestIntersection = aReallyFarIntersection)
+				if(closestIntersection.getT()>0)
 				{
-					Color* toAdd = new Color(scene->getBackgroundColor());
-					img->push_back(toAdd);
+					Color c;
+					//shade 
+					for(size_t ln=0; ln<lights.size(); ln++)
+					{
+						c += closestIntersection.getSurface().getShader().shade(closestIntersection, *lights[ln]);
+					}
+					img[j*width+i] = c;
 				}
 				else
 				{
-					Color* toAdd = new Color(0,0,0);
-					for(size_t ln = 0; ln < lights.size(); ln++)
-					{
-						light::Light* l = lights[ln];
-						*toAdd += closestIntersection->getSurface().getShader().shade(*closestIntersection,*l);
-					}
-					img->push_back(toAdd);
+					img[j*width+i] = bgc;
 				}
 			}
 		}
-		
-		
-		delete aReallyFarIntersection;
+
 		return img;
 	}
 
@@ -103,8 +82,8 @@ namespace rtrace
 		return *scene;
 	}
 
-	void RayTracer::setScene(Scene* s)
+	void RayTracer::setScene(Scene s)
 	{
-		scene = s;
+		scene = &s;
 	}
 }

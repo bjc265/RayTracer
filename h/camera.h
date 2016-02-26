@@ -27,7 +27,14 @@ namespace rtrace
 			virtual void setDirection(arma::vec3 v) {direction = v;}
 			arma::vec3 getUpDirection() const {return up;}
 			virtual void setUpDirection(arma::vec3 v) {up = v;}
-			virtual Ray getCameraRay(double u, double v) = 0;
+			
+			virtual Ray getCameraRay(double u, double v)
+			{
+				arma::vec3 q("0 0 0");
+				Ray r(q,q);
+				return r;
+			}
+			virtual Camera* getAsHeapObject() {return new Camera(*this);}
 		
 		};
 	}

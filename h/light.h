@@ -10,7 +10,12 @@ namespace rtrace
 	{
 		class Light
 		{
-			virtual Ray getLightRay(arma::vec3 pos) = 0;
+			virtual Ray getLightRay(arma::vec3 pos)
+			{
+				arma::vec3 v("0 0 0");
+				Ray r(v,v);
+				return r;
+			}
 		};
 	}
 }
