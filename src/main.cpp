@@ -16,7 +16,7 @@ int main(int argc, const char* argv[])
 	arma::vec3 camPos("0 -5 0");
 	arma::vec3 camDir("0 2 0");
 	arma::vec3 camU("0 0 1");
-	camera::OrthographicCamera cam(camPos, camDir, camU,.5,.5);
+	camera::OrthographicCamera cam(camPos, camDir, camU,5,5);
 
 
 	Color bgc(6,9,69);
@@ -42,4 +42,6 @@ int main(int argc, const char* argv[])
 	std::vector<Color> img = raytracer.renderScene("",160,90);
 
 	std::cout << "\n" << img[2] << "\n";
+
+	raytracer.saveAsPPM("test.ppm",img,160,90);
 }

@@ -24,6 +24,27 @@ namespace rtrace
 		return renderCurrentScene(width, height);
 	}
 
+	void RayTracer::saveAsPPM(std::string filename, std::vector<Color> img, int width, int height)
+	{
+		std::ofstream ofs;
+
+		
+			ofs.open(filename, std::ios::binary);
+			ofs << "P6\n" << width << " " << height << "\n255\n";
+			for(int i=0; i<height; i++)
+			{
+				for(int j=0; j<width; j++)
+				{
+					Color c = img[width*i+j];
+					ofs << (unsigned char)c.r << (unsigned char)c.g << (unsigned char)c.b;
+				}
+				
+			}
+			ofs.close(); 
+		
+	}
+
+
 	void RayTracer::buildScene(std::string scenefile_path)
 	{
 

@@ -13,7 +13,7 @@ namespace rtrace
 		RayTracerConfig getConfig();
 		void setConfig(RayTracerConfig c);
 		std::vector<Color> renderScene(std::string scenefile_path, int width, int height);
-
+		void saveAsPPM(std::string filename, std::vector<Color> img, int width, int height);
 
 	public:			//for debugging purposes (remove eventually)
 		Scene& getScene();
