@@ -36,6 +36,7 @@ namespace rtrace
 	{
 		delete camera;
 		camera = cam.getAsHeapObject();
+		std::cout << "Set scene camera to " << camera->getPosition() << "\n";
 	}
 
 	std::vector<surface::Surface*> Scene::getSurfaces()
@@ -45,7 +46,7 @@ namespace rtrace
 
 	void Scene::addSurface(surface::Surface& s)
 	{
-		surfaces.push_back(&s);
+		surfaces.push_back(s.getAsHeapObject());
 	}
 
 	std::vector<light::Light*> Scene::getLights()

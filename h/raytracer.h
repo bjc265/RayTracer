@@ -17,7 +17,7 @@ namespace rtrace
 
 	public:			//for debugging purposes (remove eventually)
 		Scene& getScene();
-		void setScene(Scene s);
+		void setScene(Scene& s);
 
 	private:
 		RayTracerConfig config;

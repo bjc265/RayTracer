@@ -12,6 +12,7 @@ namespace rtrace
 {
 
 
+
 	void RayTracer::setConfig(RayTracerConfig c)
 	{
 		config = c;
@@ -37,6 +38,7 @@ namespace rtrace
 		std::vector<Color> img(width*height);
 		Color bgc = scene->getBackgroundColor();
 		
+
 		
 		for(int j=0; j<height; j++)
 		{
@@ -44,7 +46,6 @@ namespace rtrace
 			{
 				Intersection closestIntersection;
 				Ray camRay = cam->getCameraRay(((double)i)/((double)width), ((double)j)/((double)height));
-
 				//intersect all surfaces in the scene
 				for(size_t sn=0; sn<surfaces.size(); sn++)
 				{
@@ -82,7 +83,7 @@ namespace rtrace
 		return *scene;
 	}
 
-	void RayTracer::setScene(Scene s)
+	void RayTracer::setScene(Scene& s)
 	{
 		scene = &s;
 	}

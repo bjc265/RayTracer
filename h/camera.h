@@ -30,6 +30,7 @@ namespace rtrace
 			
 			virtual Ray getCameraRay(double u, double v)
 			{
+				std::cout << "used generic getcamray function\n";
 				arma::vec3 q("0 0 0");
 				Ray r(q,q);
 				return r;

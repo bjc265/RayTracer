@@ -27,6 +27,8 @@ namespace rtrace
 			void setUpDirection(arma::vec3 v);
 
 			Ray getCameraRay(double u, double v);
+
+			Camera* getAsHeapObject();
 		};
 	}
 }

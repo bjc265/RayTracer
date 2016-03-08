@@ -13,6 +13,7 @@ namespace rtrace
 			side = arma::normalise(arma::cross(up,direction));
 			width = w;
 			height = h;
+
 		}
 
 		void OrthographicCamera::setDirection(arma::vec3 v)
@@ -32,6 +33,11 @@ namespace rtrace
 			arma::vec3 p = position + (u-0.5)*width*side + (v-0.5)*height*up;
 			Ray r(p,direction);
 			return r;
+		}
+
+		Camera* OrthographicCamera::getAsHeapObject()
+		{
+			return new OrthographicCamera(position,direction,up,width,height);
 		}
 	}
 }
