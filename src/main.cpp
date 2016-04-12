@@ -1,7 +1,8 @@
 #include "raytracer.h"
 #include "orthographiccamera.h"
 #include "sphere.h"
-#include "flatshader.h"
+#include "diffuseshader.h"
+#include "pointlight.h"
 #include <iostream>
 
 using namespace rtrace;
@@ -20,28 +21,27 @@ int main(int argc, const char* argv[])
 
 
 	Color bgc(6,9,69);
-	Color sc(255,0,0);
+	Color sc(100,0,0);
 	scene.setBackgroundColor(bgc);
 	scene.setCamera(cam);
 
-	
+
+	arma::vec3 lightPos("-1 -20 -3");
+	Color lightColor(42,42,42);
+	light::PointLight pl(lightPos,lightColor,50.00);	
 
 
 	arma::vec3 pos("0 0 0");
-	shader::FlatShader fs(sc);
-	surface::Sphere* sphere = new surface::Sphere(pos,1.0,fs);
+	shader::DiffuseShader fs(sc);
+	surface::Sphere* sphere = new surface::Sphere(pos,2.0,fs);
 
 	scene.addSurface(*sphere);
-
-	std::cout << scene.getSurfaces()[0] << "\n";
+	scene.addLight(pl);
 
 	raytracer.setScene(scene);
 
-	std::cout << raytracer.getScene().getSurfaces()[0] << "\n";
+	std::vector<Color> img = raytracer.renderScene("",1280,720);
 
-	std::vector<Color> img = raytracer.renderScene("",160,90);
 
-	std::cout << "\n" << img[2] << "\n";
-
-	raytracer.saveAsPPM("test.ppm",img,160,90);
+	raytracer.saveAsPPM("test.ppm",img,1280,720);
 }

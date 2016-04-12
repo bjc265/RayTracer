@@ -26,6 +26,13 @@ namespace rtrace
 			shadr = &s;
 		}
 
+		arma::vec3 Sphere::getNormalAt(arma::vec3 pos)
+		{
+			
+				return arma::normalise(pos-center);
+			\
+		}
+
 		Intersection Sphere::intersect(Ray ray)
 		{
 			arma::vec3 o = ray.getPosition();
@@ -44,7 +51,7 @@ namespace rtrace
 			}
 			else
 			{
-				arma::vec3 loc = 0 + l*t2;
+				arma::vec3 loc = o + l*t2;
 				Intersection i(ray, this, t2, loc);
 				return i;
 			}

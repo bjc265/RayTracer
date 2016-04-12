@@ -20,6 +20,7 @@ namespace rtrace
 			Sphere(arma::vec3 c, double r, shader::Shader& s);
 
 			Intersection intersect(Ray ray);
+			arma::vec3 getNormalAt(arma::vec3 pos);
 
 			arma::vec3 getCenter() const {return center;}
 			void setCenter(arma::vec3 v) {center = v;}

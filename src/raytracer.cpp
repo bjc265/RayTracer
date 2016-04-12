@@ -36,7 +36,7 @@ namespace rtrace
 				for(int j=0; j<width; j++)
 				{
 					Color c = img[width*i+j];
-					ofs << (unsigned char)c.r << (unsigned char)c.g << (unsigned char)c.b;
+					ofs << (unsigned char)(c.r > 255 ? 255 : c.r) << (unsigned char)(c.g > 255 ? 255 : c.b) << (unsigned char)(c.b > 255 ? 255 : c.b);
 				}
 				
 			}
@@ -81,13 +81,8 @@ namespace rtrace
 
 				if(closestIntersection.getT()>0)
 				{
-					Color c;
 					//shade 
-					for(size_t ln=0; ln<lights.size(); ln++)
-					{
-						c += closestIntersection.getSurface().getShader().shade(closestIntersection, *lights[ln]);
-					}
-					img[j*width+i] = c;
+					img[j*width+i] = closestIntersection.getSurface().getShader().shade(closestIntersection, lights);
 				}
 				else
 				{

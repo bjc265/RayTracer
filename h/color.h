@@ -2,6 +2,7 @@
 #define COLOR_H
 
 #include <ostream>
+#include <math.h>
 
 namespace rtrace
 {
@@ -44,12 +45,37 @@ namespace rtrace
 			set(c.r,c.g,c.b);
 		}
 
+		Color operator=(const Color& c)
+		{
+			this->r = c.r;
+			this->g = c.g;
+			this->b = c.b;
+			return *this;
+		}
+
 		Color operator+=(const Color& c)
 		{
+			this->r += c.r;
+			this->g += c.g;
+			this->b += c.b;
+			return *this;
+		}
+
+		Color operator*(const double d)
+		{
 			Color n;
-			n.r = this->r + c.r;
-			n.g = this->g + c.g;
-			n.b = this->b + c.b;
+			n.r = (int)round(this->r * d);
+			n.g = (int)round(this->g * d);
+			n.b = (int)round(this->b * d);
+			return n;
+		}
+
+		Color operator/(const double d) {
+
+			Color n;
+			n.r = (this->r / d);
+			n.g = (int)round(this->g / d);
+			n.b = (int)round(this->b / d);
 			return n;
 		}
 
