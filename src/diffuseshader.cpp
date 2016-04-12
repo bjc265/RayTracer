@@ -26,7 +26,7 @@ namespace rtrace
 				double ndotl = arma::norm_dot(n,l);
 				ndotl = (ndotl <= 0 ? 0 : ndotl);
 				//std::cout << "\n\n" << diffuseColor << "  " << light->getIntensity() << "  " << arma::dot(l,l) << "  " << intersect.getLocation() << "  " << l << "\n\n";
-				c += diffuseColor * light->getIntensity() / sqrt(arma::dot(l,l)) * ndotl;
+				c += diffuseColor * light->getIntensity() / arma::dot(l,l) * ndotl;
 				arma::vec3 temp;
 				//c.set(n[0]*256,n[1]*256,n[2]*256);
 				//std::cout << "\n\n" << l;

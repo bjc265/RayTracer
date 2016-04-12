@@ -36,7 +36,7 @@ namespace rtrace
 				for(int j=0; j<width; j++)
 				{
 					Color c = img[width*i+j];
-					ofs << (unsigned char)(c.r > 255 ? 255 : c.r) << (unsigned char)(c.g > 255 ? 255 : c.b) << (unsigned char)(c.b > 255 ? 255 : c.b);
+					ofs << (unsigned char)(c.r > 255 ? 255 : c.r) << (unsigned char)(c.g > 255 ? 255 : c.g) << (unsigned char)(c.b > 255 ? 255 : c.b);
 				}
 				
 			}
@@ -72,7 +72,9 @@ namespace rtrace
 				{
 					Intersection inter = surfaces[sn]->intersect(camRay);
 
-					if(closestIntersection.getT()<0 || (inter.getT()>0 && closestIntersection.getT()<0))
+					
+
+					if(inter.getT() > 0 && (closestIntersection.getT() < 0 || inter.getT() < closestIntersection.getT()))
 					{
 						closestIntersection = inter;
 					}
