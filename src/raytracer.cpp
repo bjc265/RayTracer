@@ -5,6 +5,7 @@
 #include "shader.h"
 #include "light.h"
 #include "sphere.h"
+#include <vector>
 
 
 
@@ -55,7 +56,6 @@ namespace rtrace
 		//TODO refactor
 		camera::Camera* cam = scene->getCamera();
 		std::vector<light::Light*> lights = scene->getLights();
-		std::vector<surface::Surface*> surfaces = scene->getSurfaces();
 		std::vector<Color> img(width*height);
 		Color bgc = scene->getBackgroundColor();
 		
@@ -65,26 +65,21 @@ namespace rtrace
 		{
 			for (int i=0; i<width; i++)
 			{
-				Intersection closestIntersection;
 				Ray camRay = cam->getCameraRay(((double)i)/((double)width), ((double)j)/((double)height));
-				//intersect all surfaces in the scene
-				for(size_t sn=0; sn<surfaces.size(); sn++)
-				{
-					Intersection inter = surfaces[sn]->intersect(camRay);
-
-					
-
-					if(inter.getT() > 0 && (closestIntersection.getT() < 0 || inter.getT() < closestIntersection.getT()))
-					{
-						closestIntersection = inter;
-					}
-				}
-				//closestIntersection is now the closest intersection with a positive t value, or some intersection with a negative t value if no intersections occurred.
-
+				Intersection closestIntersection = scene->getClosestIntersection(camRay);
 				if(closestIntersection.getT()>0)
 				{
 					//shade 
-					img[j*width+i] = closestIntersection.getSurface().getShader().shade(closestIntersection, lights);
+					std::vector<light::Light*> relevantLights;
+					for(light::Light* l : lights)
+					{
+						Ray r(closestIntersection.getLocation(),l->getLightVec(closestIntersection.getLocation()));
+						if(!scene->getAnyIntersection(r))
+						{
+							relevantLights.push_back(l);
+						}
+					}
+					img[j*width+i] = closestIntersection.getSurface().getShader().shade(closestIntersection, relevantLights);
 				}
 				else
 				{
@@ -95,6 +90,8 @@ namespace rtrace
 
 		return img;
 	}
+
+	
 
 	Scene& RayTracer::getScene()
 	{

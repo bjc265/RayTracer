@@ -58,4 +58,34 @@ namespace rtrace
 	{
 		lights.push_back(&l);
 	}
+
+	Intersection Scene::getClosestIntersection(Ray camRay)
+	{
+		Intersection closestIntersection;
+		for(size_t sn=0; sn<surfaces.size(); sn++)
+		{
+			Intersection inter = surfaces[sn]->intersect(camRay);
+			if(inter.getT() > 0 && (closestIntersection.getT() < 0 || inter.getT() < closestIntersection.getT()))
+			{
+				closestIntersection = inter;
+			}
+		}
+		//closestIntersection is now the closest intersection with a positive t value, or some intersection with a negative t value if no intersections occurred.
+		return closestIntersection;
+
+	}
+
+	bool Scene::getAnyIntersection(Ray camRay)
+	{
+		Intersection closestIntersection;
+		for(size_t sn=0; sn<surfaces.size(); sn++)
+		{
+			Intersection inter = surfaces[sn]->intersect(camRay);
+			if(inter.getT() > 0 && (closestIntersection.getT() < 0 || inter.getT() < closestIntersection.getT()))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 }

@@ -11,7 +11,6 @@ int main(int argc, const char* argv[])
 {
 	RayTracer raytracer;
 	Scene scene;
-	
 
 
 	arma::vec3 camPos("0 -5 0");
@@ -26,7 +25,7 @@ int main(int argc, const char* argv[])
 	scene.setCamera(cam);
 
 
-	arma::vec3 lightPos("-1 -20 -3");
+	arma::vec3 lightPos("-10 0 -3");
 	Color lightColor(42,42,42);
 	light::PointLight pl(lightPos,lightColor,500.00);
 

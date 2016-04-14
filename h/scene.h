@@ -5,6 +5,7 @@
 #include "surface.h"
 #include "light.h"
 #include "color.h"
+#include "intersection.h"
 
 
 namespace rtrace
@@ -26,6 +27,8 @@ namespace rtrace
 		void addSurface(surface::Surface& s);
 		std::vector<light::Light*> getLights();
 		void addLight(light::Light& l);
+		Intersection getClosestIntersection(Ray camRay);
+		bool getAnyIntersection(Ray camRay);
 	};
 }
 

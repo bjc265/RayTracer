@@ -13,6 +13,9 @@ namespace rtrace
 		{
 
 		public:
+			static constexpr double AMBIENT_COEFFICIENT = .1;
+
+		public:
 			virtual Color getColor() {Color c(0,0,0); return c;}
 			virtual double getIntensity() {return 0;}
 			virtual arma::vec3 getLightVec(arma::vec3 pos)
