@@ -14,7 +14,9 @@ namespace rtrace
 
 		public:
 			FlatShader(Color c) {color = c;}
-			Color shade(Intersection& intersect, std::vector<light::Light*> lights) {return color;}
+			Color shade(Intersection intersect, std::vector<light::Light*> lights) {
+				
+				return color;}
 			Shader* getAsHeapObject() {return new FlatShader(color);}
 		};
 	}

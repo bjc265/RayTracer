@@ -80,6 +80,7 @@ namespace rtrace
 						}
 					}
 					img[j*width+i] = closestIntersection.getSurface().getShader().shade(closestIntersection, relevantLights);
+					
 				}
 				else
 				{

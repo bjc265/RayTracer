@@ -79,6 +79,11 @@ namespace rtrace
 			return n;
 		}
 
+		bool operator==(const Color& c)
+		{
+			return c.r==this->r && c.g==this->g && c.b==this->b;
+		}
+
 		friend std::ostream& operator<<(std::ostream& strm, const Color& c)
 		{
 			return strm << c.r << " " << c.g << " " << c.b;
